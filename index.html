@@ -11,7 +11,7 @@
 </head>
 
 <body>
-
+    <!-- login area staring from here -->
     <div id="login-area">
         <h1 class="text-center">Welcome to ATOM Bank</h1> <!-- using bootstrap class text-center -->
         <!-- applying some css style using class for making the box for login area -->
@@ -25,7 +25,9 @@
             <button id="login" class="btn btn-success">Enter</button> <!-- using bootstrap class btn btn-success -->
         </div>
     </div>
+    <!-- login area ending here -->
 
+    <!-- transaction area staring from here -->
     <div id="transaction-area">
 
         <div class="row">
@@ -40,7 +42,7 @@
             <div class="col-md-4">
                 <div class="withdraw status">
                     <h5>Withdraw</h5>
-                    <h2>$00</h2>
+                    <h2>$ <span id="currentWithdraw">00</span></h2>
                 </div>
             </div>
 
@@ -67,7 +69,8 @@
             <div class="col-md-6">
                 <div class="submit-area">
                     <h4>Withdraw</h4>
-                    <input id="withdrawAmount" type="text" class="form-control" placeholder="$ amount you want to withdraw">
+                    <input id="withdrawAmount" type="text" class="form-control"
+                        placeholder="$ amount you want to withdraw">
                     <br>
                     <button id="addWithdraw" class="btn btn-success">Withdraw</button>
                 </div>
@@ -75,27 +78,31 @@
         </div>
 
     </div>
+    <!-- transaction area ending here -->
 
     <script>
+
         // login button event handler 
         const loginBtn = document.getElementById("login");
         loginBtn.addEventListener("click", function () {
-            // console.log("Clicked");
+
             // to hide the div of login area
             const loginArea = document.getElementById("login-area");
-            loginArea.style.display = "none";
+            loginArea.style.display = "none"; // using css to hide the div 
+
             // to display the transaction area 
             const transactionArea = document.getElementById("transaction-area");
-            transactionArea.style.display = "block";
+            transactionArea.style.display = "block"; // using css to display the div 
         })
-        document.getElementsByClassName
 
         // deposit button event handler 
         const depositBtn = document.getElementById("addDeposit");
         depositBtn.addEventListener("click", function () {
+
+            // using a function getInputNumber to get the input and convert to float
             const depositNumber = getInputNumber("depositAmount");
-            
-            // using a function to update the withdraw and balance
+
+            // using a function updateSpanText to update the withdraw and balance
             updateSpanText("currentDeposit", depositNumber)
             updateSpanText("currentBalance", depositNumber);
 
@@ -104,13 +111,20 @@
 
         // withdraw button event handler
         const withdrawBtn = document.getElementById("addWithdraw");
-        withdrawBtn.addEventListener("click", function(){
-            const withdrawNumber = getInputNumber("withdrawAmount");
-            console.log(withdrawNumber);
+        withdrawBtn.addEventListener("click", function () {
 
+            // using a function getInputNumber to get the input and convert to float
+            const withdrawNumber = getInputNumber("withdrawAmount");
+
+            // using a function updateSpanText to update the withdraw and balance
+            updateSpanText("currentWithdraw", withdrawNumber);
+            updateSpanText("currentBalance", (-1 * withdrawNumber)); //multiplying with -1 to reduce
+
+            document.getElementById("withdrawAmount").value = "";
         })
 
-        function getInputNumber(id){
+        // using a function to get the input using id and convert to float
+        function getInputNumber(id) {
             const amount = document.getElementById(id).value;
             const amountNumber = parseFloat(amount);
             return amountNumber;
